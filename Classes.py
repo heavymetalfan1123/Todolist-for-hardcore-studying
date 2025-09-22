@@ -1,5 +1,8 @@
 import time
 import csv
+import os 
+
+
 def anigilate(date1,date2):
         
         y2 = time.strptime(date2,"%H.%M.%d.%m.%Y")
@@ -10,11 +13,16 @@ class Todolist:
         self.filename = filename
         self.NST_arr = []
         self.respect = 0 
-        with open(f'{self.filename}.csv',"r+", newline='',encoding='utf-8') as csvfile:
-            
-            spamreader = csv.reader(csvfile)
-            for row in spamreader:
-                self.NST_arr.append(row)
+        
+        if f"{self.filename}.csv" not in os.listdir():
+            with open(f'{self.filename}.csv',"w", newline='',encoding='utf-8') as csvfile:
+                pass
+        else:
+            with open(f'{self.filename}.csv',"r+", newline='',encoding='utf-8') as csvfile:
+                
+                spamreader = csv.reader(csvfile)
+                for row in spamreader:
+                    self.NST_arr.append(row)
     
     def create(self,name,text,time):
 
