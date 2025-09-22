@@ -1,7 +1,7 @@
 from Classes import Todolist
 import os
 import random
-dec = Todolist("./List")
+dec = Todolist("List")
 
 
 #       ,-=-.       ______     _
@@ -50,7 +50,7 @@ dec = Todolist("./List")
     #print(words_arr)
 #print("|ДОБРО ПОЖАЛОВАТЬ В АНКИ ДЛЯ БЕДНЫХ|\n|КРАТКАЯ НАВИГАЦИЯ ПО КОМАНДАМ|\n|(1)запись - запись значений (1)   |\n|(2)запоминание - режим запоминания(2)|\n|(3)вывод - вывод словаря в формате Слово-значение-контекст(3)  |\n|выход - выход из програмы     |")
 continuing = True
-os.system('cls' if os.name == 'nt' else 'clear')
+#os.system('cls' if os.name == 'nt' else 'clear')
 
 while continuing:
     #os.system('cls' if os.name == 'nt' else 'clear')
