@@ -6,7 +6,7 @@ for doing task user will get a happy cat image
 
 task will have Name text time status
 
-
+For this code to work YOU NEED MAIN.PY AND CLASSES.PY
 
 
 
