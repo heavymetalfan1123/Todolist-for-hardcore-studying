@@ -25,7 +25,7 @@ class Todolist:
         return self.NST_arr
 
     def update_task(self,num_of_change,status):
-        #try:
+        try:
             if  self.NST_arr != [] and int(num_of_change)<=len(self.NST_arr):
                 
                     
@@ -49,8 +49,8 @@ class Todolist:
                 
             else:
                 print("ERORRRRRR REMAAAAKEEEE")
-        #except:
-        #    print("поаккуратней")
+        except:
+            print("поаккуратней")
 
             self.sync()
 
