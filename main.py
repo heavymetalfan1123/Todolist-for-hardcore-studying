@@ -56,8 +56,8 @@ while continuing:
     #os.system('cls' if os.name == 'nt' else 'clear')
     #print("|ДОБРО ПОЖАЛОВАТЬ В АНКИ ДЛЯ БЕДНЫХ|\n|КРАТКАЯ НАВИГАЦИЯ ПО КОМАНДАМ|\n|(1)запись - запись значений (1)   |\n|(2)запоминание - режим запоминания(2)|\n|(3)вывод - вывод словаря в формате Слово-значение-контекст(3)  |\n| (4) очистка файла      |\n|(5) перезапись слова |\n   \n|выход - выход из програмы     |")
     print("╔════════════════════════════════════════════╗")
-    print("║           СПИСОК ДЕЛ С ХАРАКТЕРОМ          ║")
-    print("║         твоя продуктивность имеет значение ║")
+    print("║           СПИСОК ДЕЛ                       ║")
+    print("║     твоя продуктивность  не имеет значение ║")
     print("╠════════════════════════════════════════════╣")
     print("║ [1] ➕ Добавить задачу                        ")
     print("║ [2] ✅ Отметить выполнение                      ")
@@ -89,24 +89,22 @@ while continuing:
     elif user_input.lower() =="выход":
         continuing = False 
     elif user_input == "2":
-        print(dec.NST_arr)
-        if dec.NST_arr !=[]:
-            user_input = input("номер изменения")
-            user_status = input("СТАТУС: ")
-            dec.update_task(user_input,user_status)
-        else:
-            print("=ОШИБКА ФАЙЛ ПУСТОЙ=")
+        print(dec.Read())
+        #if dec.NST_arr !=[]:
+        user_input = input("номер изменения")
+        user_status = input("СТАТУС: ")
+        dec.update_task(user_input,user_status)
+        #else:
+        #    print("=ОШИБКА ФАЙЛ ПУСТОЙ=")
     elif user_input == "3":
         #print(dec.words_array)
-        if dec.NST_arr !=[]:
-            user_input = input("номер удаления")
-            dec.delete(user_input)
-        else:
-            print("=ОШИБКА ФАЙЛ ПУСТОЙ=")
+        print(dec.Read())
+        user_input = input("номер удаления")
+        dec.delete(user_input)
+        
     elif user_input =="4":
         print("NAME TEXT TIME STATUS")
-        for el in dec.NST_arr:
-            print(*el)
+        print(dec.Read())
         inp = input("Введите что то если прочитали")
         os.system('cls' if os.name == 'nt' else 'clear')
     
