@@ -31,11 +31,12 @@ import sqlite3
 
 
 
-def anigilate(date1,date2):
+# def anigilate(date1,date2):
         
-        y2 = time.strptime(date2,"%H.%M.%d.%m.%Y")
+#         y2 = time.strptime(date2,"%H.%M.%d.%m.%Y")
         
-        return time.mktime(y2)-date1   
+#         return time.mktime(y2)-date1   
+# позже будет добавленна логика по времени 
 class Todolist: 
     def __init__(self,filename):
         self.filename = filename
@@ -62,11 +63,11 @@ class Todolist:
                         status BOOL,
                         FOREIGN KEY (userid) REFERENCES users (id)
                     )""")
-        # Эта строчка кода заменяется на cursore.execute
+       
         
         self.connect.commit()
     def create(self,name,text,time,userid):
-        # Эта строчка заменяется на insert 
+        
         self.cursr.execute("""SELECT * FROM tasks""")
         result = self.cursr.fetchall()
         print(len(result))
@@ -75,13 +76,13 @@ class Todolist:
         self.sync()
 
     def Read(self,id):
-        # эта строчка заменяется на select 
+        
         self.cursr.execute(f"""SELECT * FROM tasks WHERE userid = {id}
                     """)
         return self.cursr.fetchall()
 
     def update_task(self,num_of_change,status,usrid):
-        # ВОТ ЭТО Я ХЕЗЕ КАК ЗАМЕНИТЬ 
+        
         try:
             
 
@@ -92,21 +93,8 @@ class Todolist:
                     
                     
                     
-            # if status.lower() == "true" or status.lower() == "1":
-                    
-                    
-            #     print(anigilate(time.time(),self.NST_arr[num_of_change][2]))
-            #     if anigilate(time.time(),self.NST_arr[num_of_change][2]) >0 :
-
-            #         self.respect+=1
-            #     else:
-            #         self.respect-=1
-                    
-                
-                    
-                
-            # else:
-            #     print("ERORRRRRR REMAAAAKEEEE")
+            
+           
         except:
             print("поаккуратней")
 
@@ -124,22 +112,7 @@ class Todolist:
                     
                     
                     
-                # if status.lower() == "true":
-                    
-                #     self.NST_arr[num_of_change][3] = True
-                #     print(anigilate(time.time(),self.NST_arr[num_of_change][2]))
-                #     if anigilate(time.time(),self.NST_arr[num_of_change][2]) >0 :
-
-                #         self.respect+=1
-                #     else:
-                #         self.respect-=1
-                    
-                # else:
-                #     print("TASK NOT MADE")
-                    
                 
-            # else:
-            #     print("ERORRRRRR REMAAAAKEEEE")
         except:
             print("поаккуратней")
 
@@ -184,7 +157,7 @@ class User:
             return True 
         else: return False 
     def create(self,name,text):
-        # Эта строчка заменяется на insert 
+        
 
         self.cursr.execute("""SELECT * FROM users""")
         result = self.cursr.fetchall()
@@ -244,8 +217,8 @@ while regis:
         usr.create(name,pas)
     if  mode == 2:
         regis = False
-    # except:
-    #     print("Delete this programm")
+    
+    
 
 
 continuing = True
@@ -275,16 +248,9 @@ for i in range(3):
 
 
 
-
-    #for i in open_file(filename):
-    #print(words_arr)
-#print("|ДОБРО ПОЖАЛОВАТЬ В АНКИ ДЛЯ БЕДНЫХ|\n|КРАТКАЯ НАВИГАЦИЯ ПО КОМАНДАМ|\n|(1)запись - запись значений (1)   |\n|(2)запоминание - режим запоминания(2)|\n|(3)вывод - вывод словаря в формате Слово-значение-контекст(3)  |\n|выход - выход из програмы     |")
-
 os.system('cls' if os.name == 'nt' else 'clear')
 
 while continuing:
-    #os.system('cls' if os.name == 'nt' else 'clear')
-    #print("|ДОБРО ПОЖАЛОВАТЬ В АНКИ ДЛЯ БЕДНЫХ|\n|КРАТКАЯ НАВИГАЦИЯ ПО КОМАНДАМ|\n|(1)запись - запись значений (1)   |\n|(2)запоминание - режим запоминания(2)|\n|(3)вывод - вывод словаря в формате Слово-значение-контекст(3)  |\n| (4) очистка файла      |\n|(5) перезапись слова |\n   \n|выход - выход из програмы     |")
     print("╔════════════════════════════════════════════╗")
     print("║           СПИСОК ДЕЛ                       ║")
     print("║     твоя продуктивность  не имеет значение ║")
@@ -322,14 +288,13 @@ while continuing:
         print("Id userid NAME TEXT TIME STATUS")
         for el in dec.Read(usr.curusr):
             print("-".join([str(i) for i in el ]))
-        #if dec.NST_arr !=[]:
+        
         user_input = input("номер изменения")
         user_status = input("СТАТУС: ")
         dec.update_task(user_input,user_status,usr.curusr)
-        #else:
-        #    print("=ОШИБКА ФАЙЛ ПУСТОЙ=")
+        
     elif user_input == "3":
-        #print(dec.words_array)
+        
         print(dec.Read(usr.curusr))
         user_input = input("номер удаления")
         dec.delete(user_input,usr.curusr)
@@ -337,7 +302,7 @@ while continuing:
     elif user_input =="4":
         print("Id userid NAME TEXT TIME STATUS")
         for el in dec.Read(usr.curusr):
-            #for xd in el:
+            
             print("-".join([str(i) for i in el ]))
         #print(dec.Read(usr.curusr))
         inp = input("Введите что то если прочитали")
@@ -346,6 +311,6 @@ while continuing:
         
     else:
         print("Пересмотрите свои отношения к вводу комманд")
-    #print(dec.respect)
+    
     
 
