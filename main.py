@@ -46,7 +46,8 @@ class Todolist:
         self.cursr = self.connect.cursor()
         self.cursr.execute("""CREATE TABLE IF NOT EXISTS users 
                     (id INTEGER PRIMARY KEY,
-                    name TEXT
+                    name TEXT,
+                    pas TEXT
                     
                     )
                     
@@ -64,12 +65,12 @@ class Todolist:
         # Эта строчка кода заменяется на cursore.execute
         
         self.connect.commit()
-    def create(self,name,text,time):
+    def create(self,name,text,time,userid):
         # Эта строчка заменяется на insert 
         self.cursr.execute("""SELECT * FROM tasks""")
         result = self.cursr.fetchall()
         print(len(result))
-        self.cursr.execute(f"""INSERT INTO tasks (id,userid,name,text,time,Status) VALUES({len(result)+1},1,'{name}','{text}','{time}',false)  """)
+        self.cursr.execute(f"""INSERT INTO tasks (id,userid,name,text,time,Status) VALUES({len(result)+1},'{userid}','{name}','{text}','{time}',false)  """)
         #self.cursr.fetchall
         self.sync()
 
@@ -148,39 +149,84 @@ class Todolist:
     def sync(self):
         self.connect.commit()
     
+class User:
+    
+    def __init__(self,filename):
+        self.filename = filename
+       
+        self.curusr = 0 
+        self.connect = sqlite3.connect(f"{self.filename}.db")
+
+        self.cursr = self.connect.cursor()
+        
+        #self.connect.commit()
+        self.cursr.execute(f"""SELECT * FROM users """)
+        res = self.cursr.fetchall()
+        print(res[0])
+        if len(res) <= 0 :
+            self.create(input(),input())
+        
+
+    def validate(self,name,pas):
+        self.cursr.execute(f"""SELECT * FROM users WHERE name = '{name}' AND pas = '{pas}'""")
+        res = self.cursr.fetchall()
+        print(res)
+        if len(res):
+            self.curusr = res[0][0]
+            return True 
+        else: return False 
+    def create(self,name,text):
+        # Эта строчка заменяется на insert 
+        self.cursr.execute("""SELECT * FROM users""")
+        result = self.cursr.fetchall()
+        #print(len(result))
+        self.cursr.execute(f"""INSERT INTO users (id,name,pas) VALUES({len(result)+1},'{name}','{text}')  """)
+        self.curusr = len(result)+1
+        #self.cursr.fetchall
+        self.sync()
+
+    def sync(self):
+        self.connect.commit()
+
+
+
 
 dec = Todolist("List")
 
-
-#       ,-=-.       ______     _
-#      /  +  \     />----->  _| |_
-#      | ~~~ |    // -/- /  |_   _|
-#      |R.I.P|   //  /  /     | |
-# \vV,,|_____|V,//_____/VvV,v,|_|/,,vhjwv/,#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+usr = User("List")
 
 
 
 
 
 
+regis = True
+
+while regis:
+    mode = input("1- create user \n2 - sign in\n")
+    #try:
+    mode = int(mode)
+    if mode == 1:
+        name = input("Введите имя: ")
+        pas = input("Введите пароль: ")
+        usr.create(name,pas)
+    if  mode == 2:
+        regis = False
+    # except:
+    #     print("Delete this programm")
 
 
+continuing = True
 
 
-
-
-
-
-
+for i in range(3):
+    name = input()
+    pas = input()
+    if usr.validate(name,pas):
+        break 
+        
+    else:
+        continuing = False 
 
 
 
@@ -197,8 +243,8 @@ dec = Todolist("List")
     #for i in open_file(filename):
     #print(words_arr)
 #print("|ДОБРО ПОЖАЛОВАТЬ В АНКИ ДЛЯ БЕДНЫХ|\n|КРАТКАЯ НАВИГАЦИЯ ПО КОМАНДАМ|\n|(1)запись - запись значений (1)   |\n|(2)запоминание - режим запоминания(2)|\n|(3)вывод - вывод словаря в формате Слово-значение-контекст(3)  |\n|выход - выход из програмы     |")
-continuing = True
-os.system('cls' if os.name == 'nt' else 'clear')
+
+#os.system('cls' if os.name == 'nt' else 'clear')
 
 while continuing:
     #os.system('cls' if os.name == 'nt' else 'clear')
@@ -228,7 +274,7 @@ while continuing:
                 word = input("Слово:")
                 meaning = input("Значение:")
                 times = input("Время в формате %H.%M.%d.%m.%Y")
-                dec.create(word,meaning,times)
+                dec.create(word,meaning,times,usr.curusr)
         except:
             print("Неправильный ввод начинайте по новой")
     
