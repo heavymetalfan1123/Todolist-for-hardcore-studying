@@ -1,9 +1,6 @@
 
 import os
-
 import time
-
-import os 
 import sqlite3
 
 
@@ -39,20 +36,16 @@ import sqlite3
 # позже будет добавленна логика по времени 
 class Todolist: 
     def __init__(self,filename):
+
         self.filename = filename
-       
         self.respect = 0 
         self.connect = sqlite3.connect(f"{self.filename}.db")
-
         self.cursr = self.connect.cursor()
         self.cursr.execute("""CREATE TABLE IF NOT EXISTS users 
                     (id INTEGER PRIMARY KEY,
                     name TEXT,
                     pas TEXT
-                    
-                    )
-                    
-                    """)
+                    ) """)
 
         self.cursr.execute("""CREATE TABLE IF NOT EXISTS tasks 
                     (id INTEGER PRIMARY KEY,
@@ -84,9 +77,6 @@ class Todolist:
     def update_task(self,num_of_change,status,usrid):
         
         try:
-            
-
-                    
             num_of_change = int(num_of_change)
             self.cursr.execute(f"""UPDATE tasks SET status={status} WHERE id = {num_of_change} AND userid = {usrid}
                     """)
@@ -104,8 +94,6 @@ class Todolist:
         
         try:
             
-
-                    
             num_of_change = int(num_of_change)
             self.cursr.execute(f"""DELETE FROM tasks WHERE id={num_of_change} AND userid = {usrid}
                     """)
@@ -118,24 +106,24 @@ class Todolist:
 
         self.sync()
         
-        #self.sync()
+        
     def sync(self):
         self.connect.commit()
     
 class User:
     
     def __init__(self,filename):
+
         self.filename = filename
-       
-        self.curusr = 0 
+        self.currentuser = 0 
         self.connect = sqlite3.connect(f"{self.filename}.db")
 
         self.cursr = self.connect.cursor()
         
-        #self.connect.commit()
+        
         self.cursr.execute(f"""SELECT * FROM users """)
         res = self.cursr.fetchall()
-        #print(res[0])
+        
         if len(res) <= 0 :
             print("""╔══════════════════════════════════════════════╗
 ║            ДОБРО ПОЖАЛОВАТЬ!                 ║
@@ -149,13 +137,15 @@ class User:
         
 
     def validate(self,name,pas):
+
         self.cursr.execute(f"""SELECT * FROM users WHERE name = '{name}' AND pas = '{pas}'""")
         res = self.cursr.fetchall()
-        print(res)
+       
         if len(res):
-            self.curusr = res[0][0]
+            self.currentuser = res[0][0]
             return True 
         else: return False 
+
     def create(self,name,text):
         
 
@@ -163,7 +153,7 @@ class User:
         result = self.cursr.fetchall()
         #print(len(result))
         self.cursr.execute(f"""INSERT INTO users (id,name,pas) VALUES({len(result)+1},'{name}','{text}')  """)
-        self.curusr = len(result)+1
+        self.currentuser = len(result)+1
         #self.cursr.fetchall
         self.sync()
         print("""╔══════════════════════════════════════════════╗
@@ -204,24 +194,26 @@ while regis:
 ║ [2] 🔐 Войти в существующий                  ║
 ║                                              ║
 ║ Выберите действие: """)
-    #try:
-    mode = int(mode)
-    if mode == 1:
-        print("""╔══════════════════════════════════════════════╗
-║            СОЗДАНИЕ АККАУНТА                 ║
-╠══════════════════════════════════════════════╣
-║ Придумайте логин и пароль для нового аккаунта║
-╚══════════════════════════════════════════════╝""")
-        name = input("Введите имя: ")
-        pas = input("Введите пароль: ")
-        usr.create(name,pas)
-    if  mode == 2:
-        regis = False
+    try:
+        mode = int(mode)
+        if mode == 1:
+            print("""╔══════════════════════════════════════════════╗
+    ║            СОЗДАНИЕ АККАУНТА                 ║
+    ╠══════════════════════════════════════════════╣
+    ║ Придумайте логин и пароль для нового аккаунта║
+    ╚══════════════════════════════════════════════╝""")
+            name = input("Введите имя: ")
+            pas = input("Введите пароль: ")
+            usr.create(name,pas)
+        if  mode == 2:
+            regis = False
+    except:
+        print("ошибка")
     
     
 
 
-continuing = True
+continuing = False
 
 print("""╔══════════════════════════════════════════════╗
 ║               АВТОРИЗАЦИЯ                    ║
@@ -232,10 +224,11 @@ for i in range(3):
     name = input("Введите имя: ")
     pas = input("Введите пароль: ")
     if usr.validate(name,pas):
+        continuing = True
         break 
         
     else:
-        continuing = False 
+        continue
 
 
 
@@ -269,14 +262,14 @@ while continuing:
 
     user_input = input("Ведите режим: ")
     if user_input =="1":
-        n = input("Введите количество слов которе вы введете: ")
+        n = input("Введите количество Задач которе вы введете: ")
         try:
             n = int(n)
             for _ in range(n):
-                word = input("Слово:")
-                meaning = input("Значение:")
+                word = input("Задача: ")
+                meaning = input("Текст Задачи: ")
                 times = input("Время в формате %H.%M.%d.%m.%Y")
-                dec.create(word,meaning,times,usr.curusr)
+                dec.create(word,meaning,times,usr.currentuser)
         except:
             print("Неправильный ввод начинайте по новой")
     
@@ -286,25 +279,25 @@ while continuing:
         continuing = False 
     elif user_input == "2":
         print("Id userid NAME TEXT TIME STATUS")
-        for el in dec.Read(usr.curusr):
+        for el in dec.Read(usr.currentuser):
             print("-".join([str(i) for i in el ]))
         
         user_input = input("номер изменения")
         user_status = input("СТАТУС: ")
-        dec.update_task(user_input,user_status,usr.curusr)
+        dec.update_task(user_input,user_status,usr.currentuser)
         
     elif user_input == "3":
         
-        print(dec.Read(usr.curusr))
+        print(dec.Read(usr.currentuser))
         user_input = input("номер удаления")
-        dec.delete(user_input,usr.curusr)
+        dec.delete(user_input,usr.currentuser)
         
     elif user_input =="4":
         print("Id userid NAME TEXT TIME STATUS")
-        for el in dec.Read(usr.curusr):
+        for el in dec.Read(usr.currentuser):
             
             print("-".join([str(i) for i in el ]))
-        #print(dec.Read(usr.curusr))
+        
         inp = input("Введите что то если прочитали")
         os.system('cls' if os.name == 'nt' else 'clear')
     
