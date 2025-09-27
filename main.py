@@ -80,14 +80,14 @@ class Todolist:
                     """)
         return self.cursr.fetchall()
 
-    def update_task(self,num_of_change,status):
+    def update_task(self,num_of_change,status,usrid):
         # ВОТ ЭТО Я ХЕЗЕ КАК ЗАМЕНИТЬ 
         try:
             
 
                     
             num_of_change = int(num_of_change)
-            self.cursr.execute(f"""UPDATE tasks SET status={status} WHERE id = {num_of_change}
+            self.cursr.execute(f"""UPDATE tasks SET status={status} WHERE id = {num_of_change} AND userid = {usrid}
                     """)
                     
                     
@@ -112,14 +112,14 @@ class Todolist:
 
         self.sync()
 
-    def delete(self,num_of_change):
+    def delete(self,num_of_change,usrid):
         
         try:
             
 
                     
             num_of_change = int(num_of_change)
-            self.cursr.execute(f"""DELETE FROM tasks WHERE id={num_of_change}
+            self.cursr.execute(f"""DELETE FROM tasks WHERE id={num_of_change} AND userid = {usrid}
                     """)
                     
                     
@@ -283,22 +283,27 @@ while continuing:
     elif user_input.lower() =="выход":
         continuing = False 
     elif user_input == "2":
-        print(dec.Read())
+        print("Id userid NAME TEXT TIME STATUS")
+        for el in dec.Read(usr.curusr):
+            print("-".join([str(i) for i in el ]))
         #if dec.NST_arr !=[]:
         user_input = input("номер изменения")
         user_status = input("СТАТУС: ")
-        dec.update_task(user_input,user_status)
+        dec.update_task(user_input,user_status,usr.curusr)
         #else:
         #    print("=ОШИБКА ФАЙЛ ПУСТОЙ=")
     elif user_input == "3":
         #print(dec.words_array)
         print(dec.Read(usr.curusr))
         user_input = input("номер удаления")
-        dec.delete(user_input)
+        dec.delete(user_input,usr.curusr)
         
     elif user_input =="4":
-        print("NAME TEXT TIME STATUS")
-        print(dec.Read(usr.curusr))
+        print("Id userid NAME TEXT TIME STATUS")
+        for el in dec.Read(usr.curusr):
+            #for xd in el:
+            print("-".join([str(i) for i in el ]))
+        #print(dec.Read(usr.curusr))
         inp = input("Введите что то если прочитали")
         os.system('cls' if os.name == 'nt' else 'clear')
     
