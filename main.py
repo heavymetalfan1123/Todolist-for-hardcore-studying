@@ -74,9 +74,9 @@ class Todolist:
         #self.cursr.fetchall
         self.sync()
 
-    def Read(self):
+    def Read(self,id):
         # эта строчка заменяется на select 
-        self.cursr.execute("""SELECT * FROM tasks
+        self.cursr.execute(f"""SELECT * FROM tasks WHERE userid = {id}
                     """)
         return self.cursr.fetchall()
 
@@ -292,13 +292,13 @@ while continuing:
         #    print("=ОШИБКА ФАЙЛ ПУСТОЙ=")
     elif user_input == "3":
         #print(dec.words_array)
-        print(dec.Read())
+        print(dec.Read(usr.curusr))
         user_input = input("номер удаления")
         dec.delete(user_input)
         
     elif user_input =="4":
         print("NAME TEXT TIME STATUS")
-        print(dec.Read())
+        print(dec.Read(usr.curusr))
         inp = input("Введите что то если прочитали")
         os.system('cls' if os.name == 'nt' else 'clear')
     
