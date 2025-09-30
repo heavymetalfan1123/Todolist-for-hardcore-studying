@@ -4,30 +4,6 @@ import time
 import sqlite3
 
 
-
-
-
-
-
-
-#
-#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # def anigilate(date1,date2):
         
 #         y2 = time.strptime(date2,"%H.%M.%d.%m.%Y")
@@ -124,7 +100,7 @@ class User:
         self.cursr.execute(f"""SELECT * FROM users """)
         res = self.cursr.fetchall()
         
-        if len(res) <= 0 :
+        if len(res) <= 0  and len(name)>0:
             print("""╔══════════════════════════════════════════════╗
 ║            ДОБРО ПОЖАЛОВАТЬ!                 ║
 ╠══════════════════════════════════════════════╣
@@ -152,16 +128,21 @@ class User:
         self.cursr.execute("""SELECT * FROM users""")
         result = self.cursr.fetchall()
         #print(len(result))
-        self.cursr.execute(f"""INSERT INTO users (id,name,pas) VALUES({len(result)+1},'{name}','{text}')  """)
-        self.currentuser = len(result)+1
-        #self.cursr.fetchall
-        self.sync()
-        print("""╔══════════════════════════════════════════════╗
-║            АККАУНТ СОЗДАН!                   ║
-╠══════════════════════════════════════════════╣
-║ Первый пользователь добавлен в систему       ║
-║ Теперь вы можете войти под своими данными    ║
-╚══════════════════════════════════════════════╝""")
+        self.cursr.execute(f"""SELECT * from users WHERE name = '{name}'""")
+        res1 =  self.cursr.fetchall()
+        #print(res1,result)
+        if len(res1) <=0:
+            self.cursr.execute(f"""INSERT INTO users (id,name,pas) VALUES({len(result)+1},'{name}','{text}')  """)
+            self.currentuser = len(result)+1
+            #self.cursr.fetchall
+            self.sync()
+            print("""╔══════════════════════════════════════════════╗
+    ║            АККАУНТ СОЗДАН!                   ║
+    ╠══════════════════════════════════════════════╣
+    ║ Первый пользователь добавлен в систему       ║
+    ║ Теперь вы можете войти под своими данными    ║
+    ╚══════════════════════════════════════════════╝""")
+        
 
     def sync(self):
         self.connect.commit()
