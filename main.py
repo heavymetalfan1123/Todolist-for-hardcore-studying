@@ -100,7 +100,7 @@ class User:
         self.cursr.execute(f"""SELECT * FROM users """)
         res = self.cursr.fetchall()
         
-        if len(res) <= 0  and len(name)>0:
+        if len(res) <= 0  :
             print("""╔══════════════════════════════════════════════╗
 ║            ДОБРО ПОЖАЛОВАТЬ!                 ║
 ╠══════════════════════════════════════════════╣
@@ -131,7 +131,7 @@ class User:
         self.cursr.execute(f"""SELECT * from users WHERE name = '{name}'""")
         res1 =  self.cursr.fetchall()
         #print(res1,result)
-        if len(res1) <=0:
+        if len(res1) <=0 and len(name) > 0 :
             self.cursr.execute(f"""INSERT INTO users (id,name,pas) VALUES({len(result)+1},'{name}','{text}')  """)
             self.currentuser = len(result)+1
             #self.cursr.fetchall
